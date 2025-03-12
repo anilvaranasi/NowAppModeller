@@ -13,62 +13,74 @@
 gmlGenerateUtils.prototype = {
     initialize: function() {
         this.jsonData0 = {};
-        this.nodeArray = [];
-        this.nodeIdHash = {};
         this.edgeArray = [];
         // define group Node
-
         this.edgeItem = {};
         this.graphId;
 
     },
     generateGml: function(graphId) {
         this.graphId = graphId;
-        var grGraph = new GlideRecord('x_146833_nowappmod_graph');
-        grGraph.get(graphId);
-        this._getNodes();
-		this._getEdges();
-        this.jsonData0.nodes = this.nodeArray;
-        this.jsonData0.edges = this.edgeArray;
+        var nodeArr = this._getNodes();
+        var edgeArr = this._getEdges();
+        this.jsonData0.nodes = nodeArr;
+        this.jsonData0.edges = edgeArr;
         var convObj = new x_146833_jsontog_0.JsonToGmlUtil();
-        var gmlOutput = convObj.getGmlFromJson(jsonData0);
-        gs.info("OutputGML 2=" + gmlOutput);
+        var gmlOutput = convObj.getGmlFromJson(this.jsonData0);
+        gs.info("OutputGML 2= " + gmlOutput);
         return gmlOutput;
 
     },
     _getNodes: function() {
-        var nodeItem = {};
+        var nodeArray = [];
         var grNode = new GlideRecord('x_146833_nowappmod_node');
+        //graph=d36f53ec83582210b0abcfc0deaad3af
         var enNodeQuery = 'graph=' + this.graphId;
         grNode.addEncodedQuery(enNodeQuery);
         grNode.query();
         while (grNode.next()) {
-            nodeItem = {};
-            nodeItem.id = grNode.id;
-            nodeItem.label = grNode.label;
-            nodeItem.width = grNode.width;
-            nodeItem.color = grNode.color;
-            nodeItem.groupingId = grNode.group.id;
-            if (grNode.isgroup === true)
-                nodeItem.nodeType = 'group';
+            var nodeObj = {};
+            nodeObj = grNode;
+            var nodeItem = {};
+            var id;
+            var label;
+            var width;
+            var fill;
+            var groupid;
+            var nodeType = "node";
+            id = grNode.id + '';
+            label = nodeObj.label + '';
+            width = nodeObj.graphics.width;
+            fill = nodeObj.graphics.fill;
+            groupid = nodeObj.group.id;
+            nodeItem.id = id;
+            nodeItem.label = label;
+            nodeItem.width = width;
+            nodeItem.color = fill;
+            nodeItem.groupingId = groupid;
+            if (grNode.isgroup == true) {
+                nodeType = "group";
+            }
+            nodeItem.nodeType = nodeType;
+            nodeArray.push(nodeItem);
         }
-        this.nodeArray.push(nodeItem);
+        return nodeArray;
     },
     _getEdges: function() {
-        var edgeItem = {};
-        var gredge = new GlideRecord('x_146833_nowappmod_edge');
+        var edgeArray = [];
+        var grEdge = new GlideRecord('x_146833_nowappmod_edge');
         var enEdgeQuery = 'graph=' + this.graphId;
         grEdge.addEncodedQuery(enEdgeQuery);
         grEdge.query();
         while (grEdge.next()) {
-            edgeItem = {};
-            edgeItem.source = grEdge.source.id;
-            edgeItem.target = grEdge.target.id;
-            if (global.JSUtil.notNil(grEdge.style))
-                edgeItem.style = grEdge.style;
-            this.edgeArray.push(edgeItem);
+            var edgeItem = {};
+            edgeItem.source = grEdge.source.id + '';
+            edgeItem.target = grEdge.target.id + '';
+            if (global.JSUtil.notNil(grEdge.graphics.style))
+                edgeItem.style = grEdge.graphics.style + '';
+            edgeArray.push(edgeItem);
         }
-
+        return edgeArray;
     },
     type: 'gmlGenerateUtils'
 };]]></script>
@@ -76,14 +88,14 @@ gmlGenerateUtils.prototype = {
         <sys_created_by>avaranasi</sys_created_by>
         <sys_created_on>2025-03-12 12:55:06</sys_created_on>
         <sys_id>a813efa083982210b0abcfc0deaad3fc</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>30</sys_mod_count>
         <sys_name>gmlGenerateUtils</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_include_a813efa083982210b0abcfc0deaad3fc</sys_update_name>
         <sys_updated_by>avaranasi</sys_updated_by>
-        <sys_updated_on>2025-03-12 13:28:18</sys_updated_on>
+        <sys_updated_on>2025-03-12 17:04:13</sys_updated_on>
     </sys_script_include>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
         <id>a813efa083982210b0abcfc0deaad3fc</id>
