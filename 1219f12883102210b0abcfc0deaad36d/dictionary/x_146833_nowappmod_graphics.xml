@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="88abb9ac83102210b0abcfc0deaad3f0" label="Graphics" max_length="40" name="x_146833_nowappmod_graphics" type="collection">
+        <element default="#FFA500" label="fill" max_length="8" name="fill" type="string"/>
+        <element default="40" label="Width" max_length="40" name="width" type="integer"/>
+        <element default="40" label="Height" max_length="3" name="height" type="integer"/>
+        <element default="standard" label="targetArrow" max_length="10" name="targetarrow" type="string"/>
+        <element default="dashed" label="Style" max_length="10" name="style" type="string"/>
+        <element attributes="edge_encryption_enabled=true" calculation="(function calculatedFieldValue(current) {&#13;&#10;&#13;&#10;    // Add your code here&#13;&#10;    var calname = 'defaultName';&#13;&#10;    if (current.type == 'node') {&#13;&#10;        calname = current.type + &quot;-&quot; + current.fill;&#13;&#10;    }&#13;&#10;    if (current.type == 'edge') {&#13;&#10;        calname = current.type + &quot;-&quot; + current.style + &quot;-&quot; + current.targetarrow;&#13;&#10;    }&#13;&#10;&#13;&#10;    return calname; // return the calculated value&#13;&#10;&#13;&#10;})(current);" label="Name" max_length="40" name="name" type="string" virtual="true"/>
+        <element choice="3" default="node" label="Type" max_length="40" name="type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="edge" value="edge"/>
+                <element inactive_on_update="false" label="node" value="node"/>
+            </choice>
+        </element>
+    </element>
+</database>
