@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="ce8b75ec83102210b0abcfc0deaad3e7" label="Node" max_length="40" name="x_146833_nowappmod_node" type="collection">
+        <element label="isGroup" max_length="40" name="isgroup" type="boolean"/>
+        <element label="Graphics" max_length="32" name="graphics" reference="x_146833_nowappmod_graphics" reference_qual="type=node^EQ" reference_qual_condition="type=node^EQ" type="reference"/>
+        <element label="Group" max_length="32" name="group" reference="x_146833_nowappmod_node" reference_qual="isgroup=true^EQ" reference_qual_condition="isgroup=true^EQ" type="reference"/>
+        <element label="Graph" max_length="32" name="graph" reference="x_146833_nowappmod_graph" type="reference"/>
+        <element display="true" label="ID" max_length="10" name="id" type="integer"/>
+        <element label="Label" max_length="254" name="label" type="string"/>
+        <index name="index">
+            <element name="graph"/>
+        </index>
+        <index name="index2">
+            <element name="graphics"/>
+        </index>
+        <index name="index3">
+            <element name="group"/>
+        </index>
+    </element>
+</database>
