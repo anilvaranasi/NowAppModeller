@@ -2,14 +2,18 @@
     <element db_object_id="41cbfdec83102210b0abcfc0deaad3a9" label="edge" max_length="40" name="x_146833_nowappmod_edge" type="collection">
         <element label="Target" max_length="32" name="target" reference="x_146833_nowappmod_node" type="reference"/>
         <element label="Graphics" max_length="32" name="graphics" reference="x_146833_nowappmod_graphics" reference_qual="type=edge^EQ" reference_qual_condition="type=edge^EQ" type="reference"/>
+        <element label="Graph" max_length="32" name="graph" reference="x_146833_nowappmod_graph" type="reference"/>
         <element label="source" max_length="32" name="source" reference="x_146833_nowappmod_node" type="reference"/>
         <index name="index">
-            <element name="graphics"/>
+            <element name="graph"/>
         </index>
         <index name="index2">
-            <element name="source"/>
+            <element name="graphics"/>
         </index>
         <index name="index3">
+            <element name="source"/>
+        </index>
+        <index name="index4">
             <element name="target"/>
         </index>
     </element>
