@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_146833_nowappmod.gmlGenerateUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>gmlGenerateUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var gmlGenerateUtils = Class.create();
+gmlGenerateUtils.prototype = {
+    initialize: function() {
+        this.jsonData0 = {};
+        this.nodeArray = [];
+        this.nodeIdHash = {};
+        this.edgeArray = [];
+        // define group Node
+
+        this.edgeItem = {};
+        this.graphId;
+
+    },
+    generateGml: function(graphId) {
+        this.graphId = graphId;
+        var grGraph = new GlideRecord('x_146833_nowappmod_graph');
+        grGraph.get(graphId);
+        this._getNodes();
+		this._getEdges();
+        this.jsonData0.nodes = this.nodeArray;
+        this.jsonData0.edges = this.edgeArray;
+        var convObj = new x_146833_jsontog_0.JsonToGmlUtil();
+        var gmlOutput = convObj.getGmlFromJson(jsonData0);
+        gs.info("OutputGML 2=" + gmlOutput);
+        return gmlOutput;
+
+    },
+    _getNodes: function() {
+        var nodeItem = {};
+        var grNode = new GlideRecord('x_146833_nowappmod_node');
+        var enNodeQuery = 'graph=' + this.graphId;
+        grNode.addEncodedQuery(enNodeQuery);
+        grNode.query();
+        while (grNode.next()) {
+            nodeItem = {};
+            nodeItem.id = grNode.id;
+            nodeItem.label = grNode.label;
+            nodeItem.width = grNode.width;
+            nodeItem.color = grNode.color;
+            nodeItem.groupingId = grNode.group.id;
+            if (grNode.isgroup === true)
+                nodeItem.nodeType = 'group';
+        }
+        this.nodeArray.push(nodeItem);
+    },
+    _getEdges: function() {
+        var edgeItem = {};
+        var gredge = new GlideRecord('x_146833_nowappmod_edge');
+        var enEdgeQuery = 'graph=' + this.graphId;
+        grEdge.addEncodedQuery(enEdgeQuery);
+        grEdge.query();
+        while (grEdge.next()) {
+            edgeItem = {};
+            edgeItem.source = grEdge.source.id;
+            edgeItem.target = grEdge.target.id;
+            if (global.JSUtil.notNil(grEdge.style))
+                edgeItem.style = grEdge.style;
+            this.edgeArray.push(edgeItem);
+        }
+
+    },
+    type: 'gmlGenerateUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-12 12:55:06</sys_created_on>
+        <sys_id>a813efa083982210b0abcfc0deaad3fc</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>gmlGenerateUtils</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_update_name>sys_script_include_a813efa083982210b0abcfc0deaad3fc</sys_update_name>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-12 13:28:18</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>a813efa083982210b0abcfc0deaad3fc</id>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-12 12:55:05</sys_created_on>
+        <sys_id>6923e3e083982210b0abcfc0deaad3b5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-12 12:55:05</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>
