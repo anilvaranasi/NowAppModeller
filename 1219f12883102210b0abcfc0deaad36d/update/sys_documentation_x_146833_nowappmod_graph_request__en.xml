@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update>
-    <sys_documentation element="name" label="Name" language="en" table="x_146833_nowappmod_graph">
+    <sys_documentation element="" label="Graph Request" language="en" table="x_146833_nowappmod_graph_request">
         <sys_documentation action="INSERT_OR_UPDATE">
-            <element>name</element>
+            <element/>
             <help/>
             <hint/>
-            <label>Name</label>
+            <label>Graph Request</label>
             <language>en</language>
-            <name>x_146833_nowappmod_graph</name>
-            <plural>Names</plural>
+            <name>x_146833_nowappmod_graph_request</name>
+            <plural>Graph Requests</plural>
             <sys_class_name>sys_documentation</sys_class_name>
-            <sys_created_by>avaranasi</sys_created_by>
-            <sys_created_on>2025-03-12 12:39:32</sys_created_on>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-03-13 03:52:12</sys_created_on>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Name</sys_name>
+            <sys_name>Graph Request</sys_name>
             <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
             <sys_policy/>
             <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
-            <sys_update_name>sys_documentation_x_146833_nowappmod_graph_name_en</sys_update_name>
-            <sys_updated_by>avaranasi</sys_updated_by>
-            <sys_updated_on>2025-03-12 12:39:32</sys_updated_on>
+            <sys_update_name>sys_documentation_x_146833_nowappmod_graph_request__en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-03-13 03:52:12</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

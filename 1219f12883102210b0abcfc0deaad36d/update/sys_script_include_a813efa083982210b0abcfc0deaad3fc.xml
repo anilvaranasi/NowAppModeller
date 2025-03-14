@@ -2,15 +2,15 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>package_private</access>
         <active>true</active>
-        <api_name>x_146833_nowappmod.gmlGenerateUtils</api_name>
+        <api_name>x_146833_nowappmod.GMLGenerateUtils</api_name>
         <caller_access/>
         <client_callable>false</client_callable>
         <description/>
         <mobile_callable>false</mobile_callable>
-        <name>gmlGenerateUtils</name>
+        <name>GMLGenerateUtils</name>
         <sandbox_callable>false</sandbox_callable>
-        <script><![CDATA[var gmlGenerateUtils = Class.create();
-gmlGenerateUtils.prototype = {
+        <script><![CDATA[var GMLGenerateUtils = Class.create();
+GMLGenerateUtils.prototype = {
     initialize: function() {
         this.jsonData0 = {};
         this.edgeArray = [];
@@ -82,20 +82,20 @@ gmlGenerateUtils.prototype = {
         }
         return edgeArray;
     },
-    type: 'gmlGenerateUtils'
+    type: 'GMLGenerateUtils'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>avaranasi</sys_created_by>
         <sys_created_on>2025-03-12 12:55:06</sys_created_on>
         <sys_id>a813efa083982210b0abcfc0deaad3fc</sys_id>
-        <sys_mod_count>30</sys_mod_count>
-        <sys_name>gmlGenerateUtils</sys_name>
+        <sys_mod_count>31</sys_mod_count>
+        <sys_name>GMLGenerateUtils</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_include_a813efa083982210b0abcfc0deaad3fc</sys_update_name>
-        <sys_updated_by>avaranasi</sys_updated_by>
-        <sys_updated_on>2025-03-12 17:04:13</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-14 00:42:45</sys_updated_on>
     </sys_script_include>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
         <id>a813efa083982210b0abcfc0deaad3fc</id>

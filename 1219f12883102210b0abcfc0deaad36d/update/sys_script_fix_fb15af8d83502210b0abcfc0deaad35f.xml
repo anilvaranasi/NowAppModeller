@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="INSERT_OR_UPDATE">
+        <before>false</before>
+        <description/>
+        <name>testNodeCreation</name>
+        <record_for_rollback>false</record_for_rollback>
+        <script><![CDATA[this.graphId;
+this.graphReqId = 'cfa3141983942210b0abcfc0deaad38a';
+generateNodes();
+
+function generateNodes() {
+    var apphash = {};
+    var pkghash = {};
+    var classhash = {};
+    var nodehash = {};
+    var grMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
+    var metaEnquery = 'graph_request=' + this.graphReqId;
+    grMeta.addEncodedQuery(metaEnquery);
+    grMeta.query();
+    while (grMeta.next()) {
+        this.graphId = grMeta.graph.sys_id;
+        var appName = grMeta.metadata.sys_scope.getDisplayValue();
+        apphash[appName] = 1;
+        var pkgName = grMeta.metadata.sys_package.getDisplayValue();
+        pkghash[pkgName] = appName;
+        var className = grMeta.metadata.sys_class_name.toString();
+        if (global.JSUtil.notNil(pkgName)) {
+            classhash[className] = pkgName;
+        } else {
+            classhash[className] = 1;
+        }
+        var nodeName = grMeta.metadata.sys_id + "|" + grMeta.metadata.sys_name;
+        nodehash[nodeName] = className;
+    }
+    var appNodeId = 11000;
+    var pkgNodeId = 10100;
+    var classNodeId = 10000;
+    var nodeId = 1;
+    for (var app in apphash) {
+        var appSysId = _createGroupNode(app, appNodeId++);
+        apphash[app] = appSysId;
+    }
+    for (var pkg in pkghash) {
+        var pkgAppSysId = apphash[pkghash[pkg]];
+        var pkgSysId = _createGroupNode(pkg, pkgNodeId++, pkgAppSysId);
+        pkghash[pkg] = pkgSysId;
+    }
+    for (var classText in classhash) {
+        var clsPkgSysId = pkghash[classhash[classText]];
+        var classSysId = _createGroupNode(classText, classNodeId++, clsPkgSysId);
+        classhash[classText] = classSysId;
+    }
+    for (var node in nodehash) {
+		var nodeClsSysId = classhash[nodehash[node]];
+        var nodeArray = node.split("|");
+        var nodeMetaId = nodeArray[0];
+        var nodeName = nodeArray[1];
+        _createNode(nodeName, nodeId++, nodeClsSysId, nodeMetaId);
+    }
+}
+
+
+function _createGroupNode(label, id, group) {
+    var grNode = new GlideRecord('x_146833_nowappmod_node');
+    grNode.initialize();
+    grNode.graph = this.graphId;
+    grNode.label = label;
+    grNode.id = id;
+    if (global.JSUtil.notNil(group)) {
+        grNode.group = group //sysid; 
+    }
+    /*if (global.JSUtil.notNil(graphics)) {
+        grNode.graphics = graphics //sysid;
+    }*/
+    grNode.isgroup = true
+    var nodeSysId = grNode.insert();
+    return nodeSysId;
+}
+
+function _createNode(nodeName, nodeId, grpSysId, nodeMetaId) {
+    var grNode = new GlideRecord('x_146833_nowappmod_node');
+    grNode.initialize();
+    grNode.graph = this.graphId;
+    grNode.label = nodeName;
+    grNode.id = nodeId;
+    grNode.group = grpSysId;
+    //grNode.graphics = '';
+    grNode.isgroup = false;
+    grNode.meta = nodeMetaId;
+    grNode.insert();
+}
+
+function _identifyNodes() {
+    //query graphmeta table
+    //create apphash, packagehash, classhash
+    //iterate through each of hash
+    //group by on  Application -> Package -> Class ->
+    //create group node for each of them set application as group for package
+    //create group node for each of them set package as group for class
+    //create group node for each of them set package as group for node
+
+}]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-14 02:20:40</sys_created_on>
+        <sys_id>fb15af8d83502210b0abcfc0deaad35f</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>testNodeCreation</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_update_name>sys_script_fix_fb15af8d83502210b0abcfc0deaad35f</sys_update_name>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-14 05:54:07</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>fb15af8d83502210b0abcfc0deaad35f</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-14 02:48:47</sys_created_on>
+        <sys_id>bb8be30183d02210b0abcfc0deaad3c3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-14 02:48:47</sys_updated_on>
+        <table>sys_script_fix</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

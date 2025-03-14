@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_146833_nowappmod.GraphRequestUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>GraphRequestUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var GraphRequestUtils = Class.create();
+GraphRequestUtils.prototype = {
+    initialize: function() {
+        this.graphId;
+        this.graphReqId;
+        this.sDebug = 'printing from SI ';
+    },
+    processRequest: function(graphReqId, tables) {
+        try {
+            this.graphReqId = graphReqId;
+            this._createGraph();
+            this._processTables(tables);
+            this._processGrMeta();
+            this._generateNodes();
+            this._generateAttachment();
+        } catch (e) {
+            this.sDebug += ' exception ' + e;
+        }
+        gs.info(this.sDebug);
+    },
+    _createGraph: function() {
+        var grGraph = new GlideRecord('x_146833_nowappmod_graph');
+        grGraph.initialize();
+        grGraph.request = this.graphReqId;
+        this.graphId = grGraph.insert();
+    },
+    _processTables: function(tablesString) {
+        //this.sDebug += " _processTables = " + tablesString + "\n";
+        var tables = [];
+        tables = tablesString.split(",");
+        for (var k = 0; k < tables.length; k++) {
+            this._createGraphMeta(tables[k], 'sysid');
+        }
+    },
+    _createGraphMeta: function(tableName, idType) {
+        var metaId;
+        if (idType == 'name') {
+            metaId = this._getMetadataTable(tableName);
+        }
+        if (idType == 'sysid') {
+            metaId = tableName;
+        }
+        var grGraMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
+        var enQuery = 'graph_request=' + this.graphReqId + '^graph=' + this.graphId + '^metadata=' + metaId;
+        //this.sDebug += " _createGraphMeta = " + tableName + " " + idType + " " + metaId + " " + enQuery + "\n";
+        grGraMeta.addEncodedQuery(enQuery);
+        grGraMeta.query();
+        if (!grGraMeta.next()) {
+            grGraMeta.initialize();
+            grGraMeta.graph = this.graphId;
+            grGraMeta.graph_request = this.graphReqId;
+            grGraMeta.metadata = metaId;
+            grGraMeta.insert();
+        }
+    },
+    _processGrMeta: function() {
+        var grMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
+        var enQueryMeta = 'graph_request=' + this.graphReqId;
+        grMeta.addEncodedQuery(enQueryMeta);
+        grMeta.query();
+        while (grMeta.next()) {
+            if (grMeta.metadata.sys_class_name == 'sys_db_object') {
+                var tableName = grMeta.metadata.name.toString();
+                var tableList = this._getERDTable(tableName);
+                for (var targTable in tableList) {
+                    this._createGraphMeta(targTable, 'name');
+                    this.sDebug += " tableName, targTable " + tableName + " " + targTable;
+                    this._createEdge(tableName, targTable);
+                }
+            }
+        }
+    },
+    _getERDTable: function(tableName) {
+        var erdObj = new global.ERDProcessorUtils();
+        var tableObj = erdObj.getReferencedTables(tableName);
+        return tableObj;
+    },
+    _getMetadataTable: function(tableName) {
+        var metaSysId;
+        var grMeta = new GlideRecord('sys_db_object');
+        grMeta.addEncodedQuery('name=' + tableName);
+        grMeta.query();
+        if (grMeta.next()) {
+            metaSysId = grMeta.sys_id;
+        }
+        return metaSysId;
+    },
+    _createEdge: function(source, target) {
+        var grEdge = new GlideRecord('x_146833_nowappmod_edge');
+        grEdge.initialize();
+        grEdge.source_meta = this._getMetadataTable(source);
+        grEdge.target_meta = this._getMetadataTable(target);
+        grEdge.graph = this.graphId;
+        grEdge.insert();
+    },
+    _generateNodes: function() {
+        var apphash = {};
+        var pkghash = {};
+        var classhash = {};
+        var nodehash = {};
+        var grMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
+        var metaEnquery = 'graph_request=' + this.graphReqId;
+        grMeta.addEncodedQuery(metaEnquery);
+        grMeta.query();
+        while (grMeta.next()) {
+            //this.graphId = grMeta.graph.sys_id;
+            var appName = grMeta.metadata.sys_scope.getDisplayValue();
+            apphash[appName] = 1;
+            var pkgName = grMeta.metadata.sys_package.getDisplayValue();
+            pkghash[pkgName] = appName;
+            var className = grMeta.metadata.sys_class_name.toString() + "|" + pkgName + "|" + appName;
+            if (global.JSUtil.notNil(pkgName)) {
+                classhash[className] = pkgName;
+            } else {
+                classhash[className] = 1;
+            }
+            var nodeName = grMeta.metadata.sys_id + "|" + grMeta.metadata.sys_name;
+            nodehash[nodeName] = className;
+        }
+        var appNodeId = 11000;
+        var pkgNodeId = 10100;
+        var classNodeId = 10000;
+        var nodeId = 1;
+        for (var app in apphash) {
+            var appSysId = this._createGroupNode(app, appNodeId++);
+            apphash[app] = appSysId;
+        }
+        for (var pkg in pkghash) {
+            var pkgAppSysId = apphash[pkghash[pkg]];
+            var pkgSysId = this._createGroupNode(pkg, pkgNodeId++, pkgAppSysId);
+            pkghash[pkg] = pkgSysId;
+        }
+        for (var classText in classhash) {
+            var clsPkgSysId = pkghash[classhash[classText]];
+            var classSysId = this._createGroupNode(classText, classNodeId++, clsPkgSysId);
+            classhash[classText] = classSysId;
+        }
+        for (var node in nodehash) {
+            var nodeClsSysId = classhash[nodehash[node]];
+            var nodeArray = node.split("|");
+            var nodeMetaId = nodeArray[0];
+            var nodeName = nodeArray[1];
+            this._createNode(nodeName, nodeId++, nodeClsSysId, nodeMetaId);
+        }
+    },
+    _createGroupNode: function(label, id, group) {
+        var grNode = new GlideRecord('x_146833_nowappmod_node');
+        grNode.initialize();
+        grNode.graph = this.graphId;
+        grNode.label = label;
+        grNode.id = id;
+        if (global.JSUtil.notNil(group)) {
+            grNode.group = group; //sysid
+        }
+        grNode.isgroup = true;
+        var nodeSysId = grNode.insert();
+        return nodeSysId;
+    },
+
+    _createNode: function(nodeName, nodeId, grpSysId, nodeMetaId) {
+        var nodeSysId;
+        var grNode = new GlideRecord('x_146833_nowappmod_node');
+        grNode.initialize();
+        grNode.graph = this.graphId;
+        grNode.label = nodeName;
+        grNode.id = nodeId;
+        grNode.group = grpSysId;
+        grNode.isgroup = false;
+        grNode.meta = nodeMetaId;
+        nodeSysId = grNode.insert();
+        this._updateEdge(nodeMetaId, nodeSysId);
+    },
+
+    _updateEdge: function(nodeMetaId, nodeSysId) {
+        var grEdge = new GlideRecord('x_146833_nowappmod_edge');
+        var edgeEnQuery = 'graph=' + this.graphId + '^target_meta=' + nodeMetaId + '^ORsource_meta=' + nodeMetaId;
+        grEdge.addEncodedQuery(edgeEnQuery);
+        grEdge.query();
+        while (grEdge.next()) {
+            if (grEdge.source_meta == nodeMetaId) {
+                grEdge.source = nodeSysId;
+            }
+            if (grEdge.target_meta == nodeMetaId) {
+                grEdge.target = nodeSysId;
+            }
+            grEdge.update();
+        }
+    },
+    _generateAttachment: function() {
+        var grAttachment = new GlideRecord('sys_attachment');
+        grAttachment.addQuery('table_sys_id', this.graphId);
+        grAttachment.addQuery('table_name', 'x_146833_nowappmod_graph');
+        grAttachment.query();
+        while (grAttachment.next()) {
+            grAttachment.setWorkflow(false);
+            //delete is removed on purpose since this scoped app doesnt have delete permissions
+            //grAttachment.deleteRecord();
+        }
+        var attachment = new GlideSysAttachment();
+        var gmlOutput;
+        var jsonObj = new GMLGenerateUtils();
+        gmlOutput = jsonObj.generateGml(this.graphId);
+        var fileName = 'outputfile' + "-" + new GlideDate().getDisplayValue() + '.gml';
+        var contentType = 'application/octet-stream	';
+        var content = '';
+        content = gmlOutput;
+        var grGraph = new GlideRecord('x_146833_nowappmod_graph');
+        grGraph.get(this.graphId);
+        var agr = attachment.write(grGraph, fileName, contentType, content);
+    },
+
+    type: 'GraphRequestUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-14 00:43:31</sys_created_on>
+        <sys_id>392ec3c183102210b0abcfc0deaad371</sys_id>
+        <sys_mod_count>25</sys_mod_count>
+        <sys_name>GraphRequestUtils</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_update_name>sys_script_include_392ec3c183102210b0abcfc0deaad371</sys_update_name>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-14 06:57:02</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>392ec3c183102210b0abcfc0deaad371</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-03-14 00:43:30</sys_created_on>
+        <sys_id>64ee8f8183102210b0abcfc0deaad3ac</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-14 00:43:30</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

@@ -43,7 +43,7 @@
  var attachment = new GlideSysAttachment();
  var gmlOutput;
  var graphId = current.sys_id;
- var jsonObj = new gmlGenerateUtils();
+ var jsonObj = new GMLGenerateUtils();
  gmlOutput = jsonObj.generateGml(graphId);
  //gs.info("OutputGML 3 =" + gmlOutput);
  var fileName = current.name + "-" + new GlideDate().getDisplayValue() + '.gml';
@@ -64,15 +64,15 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>c13d1c7483dc2210b0abcfc0deaad367</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Generate GML</sys_name>
         <sys_overrides/>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy/>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_ui_action_c13d1c7483dc2210b0abcfc0deaad367</sys_update_name>
-        <sys_updated_by>avaranasi</sys_updated_by>
-        <sys_updated_on>2025-03-12 17:10:23</sys_updated_on>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-03-14 00:43:12</sys_updated_on>
         <table>x_146833_nowappmod_graph</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="DELETE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-12 17:26:13</sys_created_on>
+        <sys_id>9931e83c83dc2210b0abcfc0deaad31c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_146833_nowappmod_graph_request.x_146833_nowappmod.graph_request_user</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_security_acl display_value="x_146833_nowappmod_graph_request">d931e83c83dc2210b0abcfc0deaad309</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_9931e83c83dc2210b0abcfc0deaad31c</sys_update_name>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-12 17:26:13</sys_updated_on>
+        <sys_user_role display_value="x_146833_nowappmod.graph_request_user" name="x_146833_nowappmod.graph_request_user">f431a43c83dc2210b0abcfc0deaad300</sys_user_role>
+    </sys_security_acl_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</application>
+        <file_path/>
+        <instance_id>d3c21c79db7af91039639027c59619d7</instance_id>
+        <instance_name>dev228428</instance_name>
+        <name>sys_security_acl_role_9931e83c83dc2210b0abcfc0deaad31c</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>avaranasi</sys_created_by><sys_created_on>2025-03-12 17:26:13</sys_created_on><sys_id>9931e83c83dc2210b0abcfc0deaad31c</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_146833_nowappmod_graph_request.x_146833_nowappmod.graph_request_user</sys_name><sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package><sys_policy/><sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope><sys_security_acl display_value="x_146833_nowappmod_graph_request">d931e83c83dc2210b0abcfc0deaad309</sys_security_acl><sys_update_name>sys_security_acl_role_9931e83c83dc2210b0abcfc0deaad31c</sys_update_name><sys_updated_by>avaranasi</sys_updated_by><sys_updated_on>2025-03-12 17:26:13</sys_updated_on><sys_user_role display_value="x_146833_nowappmod.graph_request_user" name="x_146833_nowappmod.graph_request_user">f431a43c83dc2210b0abcfc0deaad300</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+        <payload_hash>-340220118</payload_hash>
+        <record_name>x_146833_nowappmod_graph_request.x_146833_nowappmod.graph_request_user</record_name>
+        <reverted_from/>
+        <source>f23b6b2083d82210b0abcfc0deaad374</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-12 17:26:13</sys_created_on>
+        <sys_id>5131e83c83dc2210b0abcfc0deaad322</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1958b647e220000001</sys_recorded_at>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-12 17:26:13</sys_updated_on>
+        <type>Access Roles</type>
+        <update_guid>5531e83c76dc22106d848a056197cd21</update_guid>
+        <update_guid_history>5531e83c76dc22106d848a056197cd21:-340220118</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="x_146833_nowappmod_graph_request.x_146833_nowappmod.graph_request_user">f5efa6f083102210b0abcfc0deaad305</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-13 03:49:39</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl_role">sys_security_acl_role</sys_db_object>
+        <sys_id>66dd0fc32a9d4041981a9fde84f48039</sys_id>
+        <sys_metadata>9931e83c83dc2210b0abcfc0deaad31c</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_146833_nowappmod_graph_request.x_146833_nowappmod.graph_request_user</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_parent display_value="">d931e83c83dc2210b0abcfc0deaad309</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_scope_delete display_value="">60928e2cf3f241b0ad2f911b74a33040</sys_scope_delete>
+        <sys_update_name>sys_security_acl_role_9931e83c83dc2210b0abcfc0deaad31c</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_role_9931e83c83dc2210b0abcfc0deaad31c">5131e83c83dc2210b0abcfc0deaad322</sys_update_version>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-13 03:49:39</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
