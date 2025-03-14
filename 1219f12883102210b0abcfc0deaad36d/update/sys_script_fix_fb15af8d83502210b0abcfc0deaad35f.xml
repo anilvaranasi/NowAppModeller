@@ -5,14 +5,14 @@
         <name>testNodeCreation</name>
         <record_for_rollback>false</record_for_rollback>
         <script><![CDATA[this.graphId;
-this.graphReqId;
+this.graphReqId = 'd83befcd83902210b0abcfc0deaad319';
+generateNodes();
 
 function generateNodes() {
     var apphash = {};
     var pkghash = {};
     var classhash = {};
     var nodehash = {};
-    this.graphReqId = '950f5f8d83502210b0abcfc0deaad30b';
     var grMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
     var metaEnquery = 'graph_request=' + this.graphReqId;
     grMeta.addEncodedQuery(metaEnquery);
@@ -23,11 +23,13 @@ function generateNodes() {
         apphash[appName] = 1;
         var pkgName = grMeta.metadata.sys_package.getDisplayValue();
         pkghash[pkgName] = appName;
-        var className = grMeta.metadata.sys_class_name;
+        var className = grMeta.metadata.sys_class_name.toString();
         if (global.JSUtil.notNil(pkgName)) {
             classhash[className] = pkgName;
+        } else {
+            classhash[className] = 1;
         }
-        var nodeName = grMeta.metadata.sys_name;
+        var nodeName = grMeta.metadata.sys_id + "|" + grMeta.metadata.sys_name;
         nodehash[nodeName] = className;
     }
     var appNodeId = 11000;
@@ -38,15 +40,18 @@ function generateNodes() {
         var appSysId = _createGroupNode(app, appNodeId++);
         for (var pkg in pkghash) {
             if (pkghash[pkg] == app) {
-                _createGroupNode(pkg, pkgNodeId++);
+                var pkgSysId = _createGroupNode(pkg, pkgNodeId++, appSysId);
                 for (var classText in classhash) {
-                    if (pkghash[pkg] == app) {
-                        _createGroupNode(classText, appNodeId++);
+                    if (classhash[classText] == pkg) {
+                        var grpSysId = _createGroupNode(classText, appNodeId++, pkgSysId);
                     }
                 }
                 for (var node in nodehash) {
-                    if (pkghash[pkg] == app) {
-                        _createNode(node, appNodeId++);
+                    if (nodehash[node] == classText) {
+                        var nodeArray = node.split("|");
+                        var nodeMetaId = nodeArray[0];
+                        var nodeName = nodeArray[1];
+                        _createNode(nodeName, nodeId++, grpSysId, nodeMetaId);
                     }
                 }
             }
@@ -59,7 +64,7 @@ function generateNodes() {
 }
 
 
-function _createGroupNode(label, id) {
+function _createGroupNode(label, id, group) {
     var grNode = new GlideRecord('x_146833_nowappmod_node');
     grNode.initialize();
     grNode.graph = this.graphId;
@@ -68,25 +73,25 @@ function _createGroupNode(label, id) {
     if (global.JSUtil.notNil(group)) {
         grNode.group = group //sysid; 
     }
-    if (global.JSUtil.notNil(graphics)) {
-        grNode.graphics = graphics //sysid
-    }
+    /*if (global.JSUtil.notNil(graphics)) {
+        grNode.graphics = graphics //sysid;
+    }*/
     grNode.isgroup = true
     var nodeSysId = grNode.insert();
     return nodeSysId;
 }
 
-function _createNode(objName) {
+function _createNode(nodeName, nodeId, grpSysId, nodeMetaId) {
     var grNode = new GlideRecord('x_146833_nowappmod_node');
     grNode.initialize();
     grNode.graph = this.graphId;
-    grNode.label = // label
-        grNode.id = //number based on level
-        grNode.group = //sysid
-        grNode.graphics = //sysid
-        grNode.isgroup = //false
-        grNode.meta = //sysid
-        grNode.insert();
+    grNode.label = nodeName;
+    grNode.id = nodeId;
+    grNode.group = grpSysId;
+    //grNode.graphics = '';
+    grNode.isgroup = false;
+    grNode.meta = nodeMetaId;
+    grNode.insert();
 }
 
 function _identifyNodes() {
@@ -103,14 +108,14 @@ function _identifyNodes() {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-03-14 02:20:40</sys_created_on>
         <sys_id>fb15af8d83502210b0abcfc0deaad35f</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>10</sys_mod_count>
         <sys_name>testNodeCreation</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy/>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_fix_fb15af8d83502210b0abcfc0deaad35f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-03-14 02:48:47</sys_updated_on>
+        <sys_updated_on>2025-03-14 03:28:17</sys_updated_on>
         <unloadable>false</unloadable>
     </sys_script_fix>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
