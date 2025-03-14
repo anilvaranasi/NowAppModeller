@@ -5,7 +5,7 @@
         <name>testNodeCreation</name>
         <record_for_rollback>false</record_for_rollback>
         <script><![CDATA[this.graphId;
-this.graphReqId = 'd83befcd83902210b0abcfc0deaad319';
+this.graphReqId = 'cfa3141983942210b0abcfc0deaad38a';
 generateNodes();
 
 function generateNodes() {
@@ -38,29 +38,25 @@ function generateNodes() {
     var nodeId = 1;
     for (var app in apphash) {
         var appSysId = _createGroupNode(app, appNodeId++);
-        for (var pkg in pkghash) {
-            if (pkghash[pkg] == app) {
-                var pkgSysId = _createGroupNode(pkg, pkgNodeId++, appSysId);
-                for (var classText in classhash) {
-                    if (classhash[classText] == pkg) {
-                        var grpSysId = _createGroupNode(classText, appNodeId++, pkgSysId);
-                    }
-                }
-                for (var node in nodehash) {
-                    if (nodehash[node] == classText) {
-                        var nodeArray = node.split("|");
-                        var nodeMetaId = nodeArray[0];
-                        var nodeName = nodeArray[1];
-                        _createNode(nodeName, nodeId++, grpSysId, nodeMetaId);
-                    }
-                }
-            }
-        }
+        apphash[app] = appSysId;
     }
-
-
-
-
+    for (var pkg in pkghash) {
+        var pkgAppSysId = apphash[pkghash[pkg]];
+        var pkgSysId = _createGroupNode(pkg, pkgNodeId++, pkgAppSysId);
+        pkghash[pkg] = pkgSysId;
+    }
+    for (var classText in classhash) {
+        var clsPkgSysId = pkghash[classhash[classText]];
+        var classSysId = _createGroupNode(classText, classNodeId++, clsPkgSysId);
+        classhash[classText] = classSysId;
+    }
+    for (var node in nodehash) {
+		var nodeClsSysId = classhash[nodehash[node]];
+        var nodeArray = node.split("|");
+        var nodeMetaId = nodeArray[0];
+        var nodeName = nodeArray[1];
+        _createNode(nodeName, nodeId++, nodeClsSysId, nodeMetaId);
+    }
 }
 
 
@@ -108,14 +104,14 @@ function _identifyNodes() {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-03-14 02:20:40</sys_created_on>
         <sys_id>fb15af8d83502210b0abcfc0deaad35f</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>13</sys_mod_count>
         <sys_name>testNodeCreation</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy/>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_fix_fb15af8d83502210b0abcfc0deaad35f</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-03-14 03:28:17</sys_updated_on>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-14 05:54:07</sys_updated_on>
         <unloadable>false</unloadable>
     </sys_script_fix>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
