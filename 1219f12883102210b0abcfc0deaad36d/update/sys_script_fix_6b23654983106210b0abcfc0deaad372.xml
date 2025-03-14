@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_fix">
+    <sys_script_fix action="INSERT_OR_UPDATE">
+        <before>false</before>
+        <description/>
+        <name>Process Graph Request</name>
+        <record_for_rollback>false</record_for_rollback>
+        <script><![CDATA[var sDebug = 'printing from fs ';
+var grReqId = '18d7650183506210b0abcfc0deaad353';
+var grRequest = new GlideRecord('x_146833_nowappmod_graph_request');
+grRequest.get(grReqId);
+processGrMeta();
+var tableMeta = [];
+gs.info(sDebug);
+
+function processGrMeta() {
+    var grMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
+    var enQueryMeta = 'graph_request=' + grReqId;
+    sDebug += enQueryMeta;
+    grMeta.addEncodedQuery(enQueryMeta);
+    grMeta.query();
+    while (grMeta.next()) {
+        if (grMeta.metadata.sys_class_name == 'sys_db_object') {
+            var tableName = grMeta.metadata.name.toString();
+            sDebug += " grMeta.metadata.sys_class_name = " + grMeta.metadata.sys_class_name;
+            var tableList = processTable(tableName);
+            sDebug += " tableList = " + tableList;
+            for (var table in tableList) {
+                createGraphMeta(table, grMeta.graph.sys_id, grMeta.graph_request.sys_id);
+                createEdge(grMeta.graph.sys_id, tableName, table);
+            }
+        }
+    }
+}
+
+function processTable(tableName) {
+    sDebug += " processTable = " + tableName;
+    var erdObj = new global.ERDProcessorUtils();
+    var tableObj = erdObj.getReferencedTables(tableName);
+    return tableObj;
+}
+
+function createGraphMeta(tableName, graph, graph_request) {
+    var metadata = getMetadataTable(tableName);
+    var grGPMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
+    var enQuery = 'graph_request=' + graph_request + '^graph=' + graph + '^metadata=' + metadata;
+    sDebug += " createGraphMeta = " + tableName + " " + graph + " " + graph_request;
+    grGPMeta.addEncodedQuery(enQuery);
+    grGPMeta.query();
+    if (!grGPMeta.next()) {
+        grGPMeta.initialize();
+        grGPMeta.graph = graph;
+        grGPMeta.graph_request = graph_request;
+        grGPMeta.metadata = metadata;
+        grGPMeta.insert();
+    }
+}
+
+function getMetadataTable(tableName) {
+    var metaSysId;
+    var grMeta = new GlideRecord('sys_db_object');
+    grMeta.addEncodedQuery('name=' + tableName);
+    grMeta.query();
+    if (grMeta.next()) {
+        metaSysId = grMeta.sys_id;
+    }
+    return metaSysId;
+}
+
+function createEdge(graph, source, target) {
+    var grEdge = new GlideRecord('x_146833_nowappmod_edge');
+    grEdge.initialize();
+    grEdge.source_meta = getMetadataTable(source);
+    grEdge.target_meta = getMetadataTable(target);
+    grEdge.graph = graph;
+    grEdge.insert();
+}]]></script>
+        <sys_class_name>sys_script_fix</sys_class_name>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-13 17:10:26</sys_created_on>
+        <sys_id>6b23654983106210b0abcfc0deaad372</sys_id>
+        <sys_mod_count>13</sys_mod_count>
+        <sys_name>Process Graph Request</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_update_name>sys_script_fix_6b23654983106210b0abcfc0deaad372</sys_update_name>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-13 17:41:58</sys_updated_on>
+        <unloadable>false</unloadable>
+    </sys_script_fix>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>6b23654983106210b0abcfc0deaad372</id>
+        <sys_created_by>avaranasi</sys_created_by>
+        <sys_created_on>2025-03-13 17:10:26</sys_created_on>
+        <sys_id>7f27618d83106210b0abcfc0deaad3b2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>avaranasi</sys_updated_by>
+        <sys_updated_on>2025-03-13 17:10:26</sys_updated_on>
+        <table>sys_script_fix</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

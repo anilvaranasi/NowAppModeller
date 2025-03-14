@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="616072b083102210b0abcfc0deaad3e6" label="Graph Request" max_length="40" name="x_146833_nowappmod_graph_request" type="collection">
+        <element choice="1" default="queued" label="Status" max_length="40" name="status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="queued" value="queued"/>
+                <element inactive_on_update="false" label="ready" value="ready"/>
+                <element inactive_on_update="false" label="processed" value="processed"/>
+            </choice>
+        </element>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
     </element>
 </database>
