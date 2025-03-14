@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="135b35ec83102210b0abcfc0deaad352" label="Graph" max_length="40" name="x_146833_nowappmod_graph" type="collection">
+        <element label="Request" max_length="32" name="request" reference="x_146833_nowappmod_graph_request" type="reference"/>
+        <index name="index">
+            <element name="request"/>
+        </index>
         <element attributes="edge_encryption_enabled=true" label="Name" max_length="40" name="name" type="string"/>
     </element>
 </database>

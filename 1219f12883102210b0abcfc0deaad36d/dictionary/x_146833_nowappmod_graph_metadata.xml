@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="d3d0767483102210b0abcfc0deaad3a3" label="Graph Metadata" max_length="40" name="x_146833_nowappmod_graph_metadata" type="collection">
+        <element label="Graph Request" max_length="32" name="graph_request" reference="x_146833_nowappmod_graph_request" type="reference"/>
+        <element label="Graph" max_length="32" name="graph" reference="x_146833_nowappmod_graph" type="reference"/>
+        <element label="Metadata" max_length="32" name="metadata" reference="sys_metadata" type="reference"/>
+        <index name="index">
+            <element name="graph"/>
+        </index>
+        <index name="index2">
+            <element name="graph_request"/>
+        </index>
+        <index name="index3">
+            <element name="metadata"/>
+        </index>
+    </element>
+</database>
