@@ -51,6 +51,9 @@ GraphRequestUtils.prototype = {
         if (idType == 'sysid') {
             metaId = tableName;
         }
+        if (idType == 'script') {
+            metaId = this._getMetadataScript(tableName);
+        }
         var grGraMeta = new GlideRecord('x_146833_nowappmod_graph_metadata');
         var enQuery = 'graph_request=' + this.graphReqId + '^graph=' + this.graphId + '^metadata=' + metaId;
         //this.sDebug += " _createGraphMeta = " + tableName + " " + idType + " " + metaId + " " + enQuery + "\n";
@@ -78,12 +81,27 @@ GraphRequestUtils.prototype = {
                     this.sDebug += " tableName, targTable " + tableName + " " + targTable;
                     this._createEdge(tableName, targTable);
                 }
+                var objList = this._getScriptReferences(tableName);
+                for (var targObj in objList) {
+                    var scriptArray = objList[targObj];
+                    for (var k = 0; k < scriptArray.length; k++) {
+                        var scriptName = targObj + "_" + scriptArray[k];
+                        this._createGraphMeta(scriptName, 'script');
+                        //this.sDebug += " tableName, targTable " + tableName + " " + targTable;
+                        this._createEdge(tableName, scriptName, 'script');
+                    }
+                }
             }
         }
     },
     _getERDTable: function(tableName) {
         var erdObj = new global.ERDProcessorUtils();
         var tableObj = erdObj.getReferencedTables(tableName);
+        return tableObj;
+    },
+    _getScriptReferences: function(tableName) {
+        var erdObj = new global.ERDProcessorUtils();
+        var tableObj = erdObj.getScriptReferences(tableName);
         return tableObj;
     },
     _getMetadataTable: function(tableName) {
@@ -96,12 +114,27 @@ GraphRequestUtils.prototype = {
         }
         return metaSysId;
     },
-    _createEdge: function(source, target) {
+    _getMetadataScript: function(tableName) {
+        var metaSysId;
+        var grMeta = new GlideRecord('sys_metadata');
+        grMeta.addEncodedQuery('sys_update_name=' + tableName);
+        grMeta.query();
+        if (grMeta.next()) {
+            metaSysId = grMeta.sys_id;
+        }
+        return metaSysId;
+    },
+    _createEdge: function(source, target, type) {
         var grEdge = new GlideRecord('x_146833_nowappmod_edge');
         grEdge.initialize();
         grEdge.source_meta = this._getMetadataTable(source);
-        grEdge.target_meta = this._getMetadataTable(target);
         grEdge.graph = this.graphId;
+        if (type == 'script') {
+            grEdge.target_meta = this._getMetadataScript(target);
+            grEdge.graphics = 'c67f7da483502210b0abcfc0deaad384';
+        } else {
+            grEdge.target_meta = this._getMetadataTable(target);
+        }
         grEdge.insert();
     },
     _generateNodes: function() {
@@ -226,14 +259,14 @@ GraphRequestUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-03-14 00:43:31</sys_created_on>
         <sys_id>392ec3c183102210b0abcfc0deaad371</sys_id>
-        <sys_mod_count>26</sys_mod_count>
+        <sys_mod_count>36</sys_mod_count>
         <sys_name>GraphRequestUtils</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_include_392ec3c183102210b0abcfc0deaad371</sys_update_name>
         <sys_updated_by>avaranasi</sys_updated_by>
-        <sys_updated_on>2025-03-14 10:22:06</sys_updated_on>
+        <sys_updated_on>2025-03-23 05:38:08</sys_updated_on>
     </sys_script_include>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
         <id>392ec3c183102210b0abcfc0deaad371</id>
