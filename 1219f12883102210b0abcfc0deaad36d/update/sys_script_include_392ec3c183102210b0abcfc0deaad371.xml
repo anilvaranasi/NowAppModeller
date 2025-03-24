@@ -189,9 +189,23 @@ GraphRequestUtils.prototype = {
     },
     _createGroupNode: function(label, id, group) {
         var grNode = new GlideRecord('x_146833_nowappmod_node');
+        var labelArray = [];
+        var updatedLabel;
         grNode.initialize();
         grNode.graph = this.graphId;
-        grNode.label = label;
+        if (label.indexOf("|") > -1) {
+            labelArray = label.split("|");
+            for (var k = 0; k < labelArray.length; k++) {
+                if (global.JSUtil.notNil(updatedLabel)) {
+                    updatedLabel += "(" + labelArray[k] + ")";
+                } else {
+                    updatedLabel = "(" + labelArray[k] + ")";
+                }
+            }
+        } else {
+            updatedLabel = label;
+        }
+        grNode.label = updatedLabel;
         grNode.id = id;
         if (global.JSUtil.notNil(group)) {
             grNode.group = group; //sysid
@@ -259,14 +273,14 @@ GraphRequestUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-03-14 00:43:31</sys_created_on>
         <sys_id>392ec3c183102210b0abcfc0deaad371</sys_id>
-        <sys_mod_count>36</sys_mod_count>
+        <sys_mod_count>39</sys_mod_count>
         <sys_name>GraphRequestUtils</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_include_392ec3c183102210b0abcfc0deaad371</sys_update_name>
         <sys_updated_by>avaranasi</sys_updated_by>
-        <sys_updated_on>2025-03-23 05:38:08</sys_updated_on>
+        <sys_updated_on>2025-03-23 07:28:40</sys_updated_on>
     </sys_script_include>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
         <id>392ec3c183102210b0abcfc0deaad371</id>
