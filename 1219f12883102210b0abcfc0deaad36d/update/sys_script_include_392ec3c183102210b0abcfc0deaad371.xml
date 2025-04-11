@@ -27,7 +27,7 @@ GraphRequestUtils.prototype = {
         } catch (e) {
             this.sDebug += ' exception ' + e;
         }
-        //gs.info(this.sDebug);
+        // gs.info(this.sDebug);
     },
     _createGraph: function() {
         var grGraph = new GlideRecord('x_146833_nowappmod_graph');
@@ -59,7 +59,7 @@ GraphRequestUtils.prototype = {
         //this.sDebug += " _createGraphMeta = " + tableName + " " + idType + " " + metaId + " " + enQuery + "\n";
         grGraMeta.addEncodedQuery(enQuery);
         grGraMeta.query();
-        if (!grGraMeta.next()) {
+        if (!grGraMeta.next() && global.JSUtil.notNil(metaId)) {
             grGraMeta.initialize();
             grGraMeta.graph = this.graphId;
             grGraMeta.graph_request = this.graphReqId;
@@ -88,9 +88,12 @@ GraphRequestUtils.prototype = {
                         if (targObj.indexOf('sys_hub_flow_block') > -1) {
                             targObj = 'sys_hub_flow';
                         }
+                        if (targObj.indexOf('sys_variable_value') > -1) {
+                            targObj = 'sys_pd_process_definition';
+                        }
                         var scriptName = targObj + "_" + scriptArray[k];
                         this._createGraphMeta(scriptName, 'script');
-                        //this.sDebug += " tableName, targTable " + tableName + " " + targTable;
+                        // this.sDebug += " tableName, targTable, scriptName " + tableName + " " + targTable + " " + scriptName;
                         this._createEdge(tableName, scriptName, 'script');
                     }
                 }
@@ -276,14 +279,14 @@ GraphRequestUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2025-03-14 00:43:31</sys_created_on>
         <sys_id>392ec3c183102210b0abcfc0deaad371</sys_id>
-        <sys_mod_count>43</sys_mod_count>
+        <sys_mod_count>48</sys_mod_count>
         <sys_name>GraphRequestUtils</sys_name>
         <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
         <sys_update_name>sys_script_include_392ec3c183102210b0abcfc0deaad371</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-03-25 06:59:36</sys_updated_on>
+        <sys_updated_on>2025-04-11 18:14:54</sys_updated_on>
     </sys_script_include>
     <sys_es_latest_script action="INSERT_OR_UPDATE">
         <id>392ec3c183102210b0abcfc0deaad371</id>
