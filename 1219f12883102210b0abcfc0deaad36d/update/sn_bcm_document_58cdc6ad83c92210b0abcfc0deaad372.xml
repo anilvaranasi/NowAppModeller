@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_bcm_document">
+    <sn_bcm_document action="INSERT_OR_UPDATE">
+        <default_text><![CDATA[<p> This plan addresses the components necessary for a viable BCP/DRP. The elements addressed reflect the restoration of &#34;Tier 1: Mission-Critical&#34;, &#34;Tier 2: BusinessCritical,&#34; and &#34;Tier 3: Important&#34; business operations and those functions necessary to accomplish this task through integrated coordination of available resources. Tier 1- 3 business operations require recovery in less than 72 hours. &#34;Tier 4: Supportive&#34; and &#34;Tier 5: Non-Essential&#34; business operations require recovery from 72 hours to 30 days. This plan addresses the PCFS business operations at the following PCFS business location(s): – [insert address(es) of PCFS site performing the relevant business processes covered by this plan]</p>]]></default_text>
+        <description>The plan scope describes an overview of the BCP/DRP's purpose and &#13;
+coverage areas. The scope is a key component used to demonstrate compliance. </description>
+        <name>PCFS - BCP/DRP Scope</name>
+        <sys_class_name>sn_bcm_document</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-04-21 16:04:02</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>58cdc6ad83c92210b0abcfc0deaad372</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>PCFS - BCP/DRP Scope</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_update_name>sn_bcm_document_58cdc6ad83c92210b0abcfc0deaad372</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-04-21 16:04:02</sys_updated_on>
+        <title>Scope</title>
+    </sn_bcm_document>
+</record_update>

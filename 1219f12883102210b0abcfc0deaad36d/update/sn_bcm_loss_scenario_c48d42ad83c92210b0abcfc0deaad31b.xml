@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sn_bcm_loss_scenario">
+    <sn_bcm_loss_scenario action="INSERT_OR_UPDATE">
+        <description>Disruption to an entire data center location</description>
+        <elements_impacted display_value="Data Center Zone">9bb374c45390301040c4ddeeff7b1278</elements_impacted>
+        <scenario_name>Loss of Data Centers</scenario_name>
+        <sys_class_name>sn_bcm_loss_scenario</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-04-21 16:02:20</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>c48d42ad83c92210b0abcfc0deaad31b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Loss of Data Centers</sys_name>
+        <sys_package display_value="NowAppModeller" source="x_146833_nowappmod">1219f12883102210b0abcfc0deaad36d</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NowAppModeller">1219f12883102210b0abcfc0deaad36d</sys_scope>
+        <sys_update_name>sn_bcm_loss_scenario_c48d42ad83c92210b0abcfc0deaad31b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-04-21 16:02:20</sys_updated_on>
+    </sn_bcm_loss_scenario>
+</record_update>
